@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { redirect } from "next/navigation";
+import { auth } from "@/lib/auth";
 import { LayoutDashboard, Package, ShoppingBag, Users, Settings, Image as ImageIcon, LogOut, FolderOpen, Star } from "lucide-react";
 
 const navItems = [
@@ -12,7 +14,10 @@ const navItems = [
   { href: "/admin/settings", label: "Настройки", icon: Settings },
 ];
 
-export default function AdminLayout({ children }: { children: React.ReactNode }) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+  const session = await auth();
+  if (!session || session.user.role !== "ADMIN") redirect("/login");
+
   return (
     <div className="min-h-screen bg-gray-50 flex">
       {/* Sidebar */}
