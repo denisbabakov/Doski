@@ -1,0 +1,255 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  PAID
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentStatus {
+  PENDING
+  SUCCEEDED
+  FAILED
+  REFUNDED
+}
+
+model User {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  emailVerified    DateTime?
+  name             String?
+  phone            String?
+  passwordHash     String?
+  role             Role      @default(USER)
+  telegramId       String?   @unique
+  telegramUsername String?
+  crmNotes         String?
+  crmTags          String[]
+  lifetimeValue    Float     @default(0)
+  lastOrderAt      DateTime?
+  orderCount       Int       @default(0)
+  orders           Order[]
+  addresses        Address[]
+  cartItems        CartItem[]
+  wishlist         WishlistItem[]
+  reviews          Review[]
+  sessions         Session[]
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+
+  @@index([email])
+  @@index([telegramId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Address {
+  id        String  @id @default(cuid())
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name      String
+  phone     String
+  city      String
+  street    String
+  apartment String?
+  zip       String?
+  isDefault Boolean @default(false)
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  name        String
+  slug        String     @unique
+  description String?
+  image       String?
+  parentId    String?
+  parent      Category?  @relation("CategoryChildren", fields: [parentId], references: [id])
+  children    Category[] @relation("CategoryChildren")
+  products    Product[]
+  sortOrder   Int        @default(0)
+  isVisible   Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Product {
+  id           String    @id @default(cuid())
+  name         String
+  slug         String    @unique
+  description  String?
+  shortDesc    String?
+  price        Float
+  comparePrice Float?
+  sku          String?   @unique
+  stock        Int       @default(0)
+  images       String[]
+  categoryId   String?
+  category     Category? @relation(fields: [categoryId], references: [id])
+  tags         String[]
+  isVisible    Boolean   @default(true)
+  isFeatured   Boolean   @default(false)
+  isNew        Boolean   @default(false)
+  metaTitle    String?
+  metaDesc     String?
+  orderItems   OrderItem[]
+  cartItems    CartItem[]
+  wishlist     WishlistItem[]
+  reviews      Review[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@index([slug])
+  @@index([categoryId])
+}
+
+model Order {
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique
+  userId          String?
+  user            User?         @relation(fields: [userId], references: [id])
+  addressId       String?
+  address         Address?      @relation(fields: [addressId], references: [id])
+  deliveryName    String
+  deliveryPhone   String
+  deliveryCity    String
+  deliveryStreet  String
+  deliveryApt     String?
+  deliveryZip     String?
+  status          OrderStatus   @default(PENDING)
+  paymentStatus   PaymentStatus @default(PENDING)
+  paymentId       String?
+  paymentUrl      String?
+  subtotal        Float
+  deliveryCost    Float         @default(0)
+  discount        Float         @default(0)
+  total           Float
+  notes           String?
+  adminNotes      String?
+  trackingNumber  String?
+  telegramNotified Boolean      @default(false)
+  items           OrderItem[]
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  @@index([orderNumber])
+  @@index([userId])
+  @@index([status])
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  name      String
+  image     String?
+  price     Float
+  quantity  Int
+  total     Float
+}
+
+model CartItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model WishlistItem {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, productId])
+}
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  rating    Int
+  comment   String?
+  isVisible Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model SiteSettings {
+  id           String   @id @default("main")
+  heroTitle    String   @default("KRZME HOME")
+  heroSubtitle String   @default("Товары для вашего дома")
+  heroImage      String?
+  bgImageNew     String?
+  bgImageSale    String?
+  bgImageCatalog String?
+  aboutText      String?
+  phone        String?
+  email        String?
+  address      String?
+  socialVk     String?
+  socialTg     String?
+  socialInst   String?
+  deliveryInfo String?
+  returnInfo   String?
+  metaTitle    String?
+  metaDesc     String?
+  updatedAt    DateTime @updatedAt
+}
+
+model Banner {
+  id        String   @id @default(cuid())
+  title     String
+  subtitle  String?
+  image     String
+  link      String?
+  sortOrder Int      @default(0)
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
+
+model TelegramMessage {
+  id        String   @id @default(cuid())
+  chatId    String
+  message   String
+  direction String
+  createdAt DateTime @default(now())
+}
