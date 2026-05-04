@@ -93,7 +93,7 @@ export default function AdminSettingsPage() {
     <div className="p-6 sm:p-8 max-w-3xl">
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">Настройки сайта</h1>
-        <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-60 text-white font-medium px-5 py-2 rounded-xl transition-colors text-sm">
+        <button onClick={handleSave} disabled={saving} className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-60 text-white font-medium px-5 py-2 rounded-xl transition-colors text-sm">
           <Save className="w-4 h-4" /> {saved ? "Сохранено!" : saving ? "Сохраняем..." : "Сохранить"}
         </button>
       </div>
@@ -107,7 +107,7 @@ export default function AdminSettingsPage() {
                 <div key={key}>
                   <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
                   <input type="text" value={form[key]} onChange={set(key)}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
                 </div>
               ))}
             </div>
@@ -123,7 +123,7 @@ export default function AdminSettingsPage() {
           <div key={key} className="bg-white border border-gray-100 rounded-2xl p-5">
             <h3 className="font-semibold text-gray-900 mb-4">{title}</h3>
             <textarea value={form[key]} onChange={set(key)} rows={5}
-              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 resize-none" />
+              className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 resize-none" />
           </div>
         ))}
       </div>

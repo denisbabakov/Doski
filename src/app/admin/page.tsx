@@ -37,7 +37,7 @@ export default async function AdminDashboard() {
   const cards = [
     { label: "Заказов", value: orders, icon: ShoppingBag, color: "bg-blue-500" },
     { label: "Клиентов", value: users, icon: Users, color: "bg-purple-500" },
-    { label: "Товаров", value: products, icon: Package, color: "bg-amber-500" },
+    { label: "Товаров", value: products, icon: Package, color: "bg-sky-500" },
     { label: "Выручка", value: `${revenue.toLocaleString("ru")} ₽`, icon: TrendingUp, color: "bg-emerald-500" },
   ];
 

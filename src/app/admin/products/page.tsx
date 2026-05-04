@@ -16,7 +16,7 @@ export default async function AdminProductsPage() {
         <h1 className="text-2xl font-bold text-gray-900">Товары</h1>
         <Link
           href="/admin/products/new"
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2 rounded-xl transition-colors text-sm"
+          className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-medium px-4 py-2 rounded-xl transition-colors text-sm"
         >
           <Plus className="w-4 h-4" /> Добавить
         </Link>
@@ -64,7 +64,7 @@ export default async function AdminProductsPage() {
                     </span>
                   </td>
                   <td className="px-4 py-3">
-                    <Link href={`/admin/products/${p.id}`} className="p-1.5 text-gray-500 hover:text-amber-500 transition-colors inline-flex">
+                    <Link href={`/admin/products/${p.id}`} className="p-1.5 text-gray-500 hover:text-sky-500 transition-colors inline-flex">
                       <Pencil className="w-4 h-4" />
                     </Link>
                   </td>

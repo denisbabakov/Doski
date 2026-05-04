@@ -49,13 +49,13 @@ export default async function AdminCustomersPage() {
                   <td className="px-5 py-3">
                     <div className="flex flex-wrap gap-1">
                       {c.crmTags.map((tag) => (
-                        <span key={tag} className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">{tag}</span>
+                        <span key={tag} className="text-xs bg-sky-100 text-sky-700 px-2 py-0.5 rounded-full">{tag}</span>
                       ))}
                     </div>
                   </td>
                   <td className="px-5 py-3 text-sm text-gray-500">{new Date(c.createdAt).toLocaleDateString("ru")}</td>
                   <td className="px-5 py-3">
-                    <Link href={`/admin/customers/${c.id}`} className="text-xs text-amber-500 hover:underline">Открыть</Link>
+                    <Link href={`/admin/customers/${c.id}`} className="text-xs text-sky-500 hover:underline">Открыть</Link>
                   </td>
                 </tr>
               ))}

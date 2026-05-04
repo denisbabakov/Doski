@@ -16,10 +16,12 @@ interface ProductCardProps {
   isNew?: boolean;
   isFeatured?: boolean;
   stock: number;
+  isWb?: boolean;
+  wbArticle?: number | null;
 }
 
 export default function ProductCard({
-  id, slug, name, price, comparePrice, images, isNew, stock,
+  id, slug, name, price, comparePrice, images, isNew, stock, isWb, wbArticle,
 }: ProductCardProps) {
   const addItem = useCart((s) => s.addItem);
   const [added, setAdded] = useState(false);
@@ -35,9 +37,14 @@ export default function ProductCard({
     setTimeout(() => setAdded(false), 1500);
   };
 
+  const handleWbClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (wbArticle) window.open(`/api/wb/go/${wbArticle}`, "_blank");
+  };
+
   return (
-    <Link href={`/product/${slug}`} className="group block">
-      <div className="relative overflow-hidden bg-[#111] border border-[#1f1f1f] group-hover:border-[#3b82f6]/30 transition-colors aspect-square">
+    <Link href={isWb ? "#" : `/product/${slug}`} onClick={isWb ? handleWbClick : undefined} className="group block">
+      <div className="relative overflow-hidden bg-[#111] border border-[var(--border)] group-hover:border-[var(--amber)]/40 transition-colors aspect-square">
         {images[0] ? (
           <Image
             src={images[0]}
@@ -52,8 +59,13 @@ export default function ProductCard({
 
         {/* Badges */}
         <div className="absolute top-3 left-3 flex flex-col gap-1">
+          {isWb && (
+            <span className="bg-[#cb11ab] text-white text-[9px] font-bold px-2 py-0.5 tracking-wider uppercase">
+              WB
+            </span>
+          )}
           {isNew && (
-            <span className="bg-[#3b82f6] text-black text-[9px] font-bold px-2 py-0.5 tracking-wider uppercase">
+            <span className="bg-[var(--amber)] text-black text-[9px] font-bold px-2 py-0.5 tracking-wider uppercase">
               New
             </span>
           )}
@@ -69,23 +81,32 @@ export default function ProductCard({
           )}
         </div>
 
-        {/* Wishlist */}
-        <button
-          onClick={(e) => { e.preventDefault(); }}
-          className="absolute top-3 right-3 w-8 h-8 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
-        >
-          <Heart className="w-3.5 h-3.5 text-[#888]" />
-        </button>
+        {/* Wishlist (only for own products) */}
+        {!isWb && (
+          <button
+            onClick={(e) => { e.preventDefault(); }}
+            className="absolute top-3 right-3 w-8 h-8 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
+          >
+            <Heart className="w-3.5 h-3.5 text-[#888]" />
+          </button>
+        )}
 
-        {/* Add to cart */}
-        <button
-          onClick={handleAdd}
-          disabled={stock === 0}
-          className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white text-xs font-semibold py-3 opacity-0 group-hover:opacity-100 transition-all hover:bg-[#3b82f6] hover:text-black disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 tracking-wide uppercase"
-        >
-          <ShoppingCart className="w-3.5 h-3.5" />
-          {added ? "Добавлено" : "В корзину"}
-        </button>
+        {/* CTA button */}
+        {isWb ? (
+          <div className="absolute bottom-0 left-0 right-0 bg-[#cb11ab]/90 backdrop-blur-sm text-white text-xs font-semibold py-3 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-2 tracking-wide uppercase">
+            <ShoppingCart className="w-3.5 h-3.5" />
+            Купить на WB
+          </div>
+        ) : (
+          <button
+            onClick={handleAdd}
+            disabled={stock === 0}
+            className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white text-xs font-semibold py-3 opacity-0 group-hover:opacity-100 transition-all hover:bg-[var(--amber)] hover:text-black disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 tracking-wide uppercase"
+          >
+            <ShoppingCart className="w-3.5 h-3.5" />
+            {added ? "Добавлено" : "В корзину"}
+          </button>
+        )}
       </div>
 
       <div className="mt-3 px-0.5">

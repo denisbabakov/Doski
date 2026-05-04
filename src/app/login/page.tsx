@@ -32,7 +32,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-900 flex items-center justify-center">
       <div className="bg-gray-800 p-8 rounded-xl w-full max-w-sm">
         <h1 className="text-white text-2xl font-bold mb-6 text-center">
-          KRZME <span className="text-amber-400">ADMIN</span>
+          KRZME <span className="text-sky-400">ADMIN</span>
         </h1>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
@@ -40,7 +40,7 @@ export default function LoginPage() {
             placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
             required
           />
           <input
@@ -48,14 +48,14 @@ export default function LoginPage() {
             placeholder="Пароль"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-amber-400"
+            className="w-full px-4 py-3 rounded-lg bg-gray-700 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
             required
           />
           {error && <p className="text-red-400 text-sm">{error}</p>}
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 bg-amber-400 text-gray-900 font-semibold rounded-lg hover:bg-amber-300 transition disabled:opacity-50"
+            className="w-full py-3 bg-sky-400 text-gray-900 font-semibold rounded-lg hover:bg-sky-300 transition disabled:opacity-50"
           >
             {loading ? "Вход..." : "Войти"}
           </button>

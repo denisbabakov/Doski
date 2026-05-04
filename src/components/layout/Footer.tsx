@@ -8,19 +8,19 @@ interface FooterProps {
   socialTg?: string | null;
 }
 
-export default function Footer({ storeName = "KRZME HOME", phone, email, socialVk, socialTg }: FooterProps) {
+export default function Footer({ storeName = "AQUA STEEL", phone, email, socialVk, socialTg }: FooterProps) {
   const words = storeName.split(" ");
   const first = words[0];
   const rest = words.slice(1).join(" ");
 
   return (
-    <footer className="bg-[#0d0d0d] border-t border-[#2a2a2a] mt-24">
+    <footer className="bg-[var(--bg-card)] border-t-2 border-[var(--amber)] mt-24">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-14">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">
 
           <div>
-            <span className="text-lg font-bold tracking-widest uppercase text-white">
-              {first}{rest && <span className="text-[#3b82f6]"> {rest}</span>}
+            <span className="text-lg font-black tracking-widest uppercase font-[family-name:var(--font-exo)] text-white">
+              {first}{rest && <span className="text-[var(--amber)]"> {rest}</span>}
             </span>
             <p className="mt-4 text-sm text-[#aaa] leading-relaxed">
               Товары для кухни и дома.<br />Доставка по всей России.
@@ -28,12 +28,12 @@ export default function Footer({ storeName = "KRZME HOME", phone, email, socialV
             {(socialVk || socialTg) && (
               <div className="flex gap-2 mt-5">
                 {socialVk && (
-                  <a href={socialVk} className="w-9 h-9 border border-[#3a3a3a] hover:border-[#3b82f6] text-[#aaa] hover:text-[#3b82f6] rounded-lg flex items-center justify-center transition-colors text-xs font-bold">
+                  <a href={socialVk} className="w-9 h-9 border border-[#3a3a3a] hover:border-[var(--amber)] text-[var(--text-muted)] hover:text-[var(--amber)] rounded-lg flex items-center justify-center transition-colors text-xs font-bold">
                     VK
                   </a>
                 )}
                 {socialTg && (
-                  <a href={socialTg} className="w-9 h-9 border border-[#3a3a3a] hover:border-[#3b82f6] text-[#aaa] hover:text-[#3b82f6] rounded-lg flex items-center justify-center transition-colors text-xs font-bold">
+                  <a href={socialTg} className="w-9 h-9 border border-[#3a3a3a] hover:border-[var(--amber)] text-[var(--text-muted)] hover:text-[var(--amber)] rounded-lg flex items-center justify-center transition-colors text-xs font-bold">
                     TG
                   </a>
                 )}
@@ -83,7 +83,7 @@ export default function Footer({ storeName = "KRZME HOME", phone, email, socialV
           </div>
         </div>
 
-        <div className="border-t border-[#2a2a2a] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#777]">
+        <div className="border-t border-[var(--border)] mt-12 pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[var(--text-dim)]">
           <p>© {new Date().getFullYear()} {storeName}. Все права защищены.</p>
           <div className="flex gap-6">
             <a href="#" className="hover:text-white transition-colors">Политика конфиденциальности</a>

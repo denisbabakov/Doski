@@ -22,7 +22,7 @@ export default async function OrderSuccessPage({ searchParams }: Props) {
         Мы уже приступили к обработке вашего заказа. Уведомление придёт в Telegram и на email.
       </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
-        <Link href="/account/orders" className="bg-amber-500 hover:bg-amber-600 text-white font-semibold px-6 py-3 rounded-full transition-colors">
+        <Link href="/account/orders" className="bg-sky-500 hover:bg-sky-600 text-white font-semibold px-6 py-3 rounded-full transition-colors">
           Мои заказы
         </Link>
         <Link href="/catalog" className="bg-gray-100 hover:bg-gray-200 text-gray-900 font-semibold px-6 py-3 rounded-full transition-colors">

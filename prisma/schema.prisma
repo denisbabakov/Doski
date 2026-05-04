@@ -120,15 +120,20 @@ model Product {
   isNew        Boolean   @default(false)
   metaTitle    String?
   metaDesc     String?
+  wbArticle    Int?
+  wbUrl        String?
+  isWb         Boolean   @default(false)
   orderItems   OrderItem[]
   cartItems    CartItem[]
   wishlist     WishlistItem[]
   reviews      Review[]
+  wbClicks     WbClick[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
   @@index([slug])
   @@index([categoryId])
+  @@index([wbArticle])
 }
 
 model Order {
@@ -244,6 +249,19 @@ model Banner {
   sortOrder Int      @default(0)
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now())
+}
+
+model WbClick {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  wbArticle Int
+  ipHash    String?
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
+  @@index([wbArticle])
 }
 
 model TelegramMessage {

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { LayoutDashboard, Package, ShoppingBag, Users, Settings, Image as ImageIcon, LogOut, FolderOpen, Star } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingBag, Users, Settings, Image as ImageIcon, LogOut, FolderOpen, Star, BarChart2 } from "lucide-react";
 
 const navItems = [
   { href: "/admin", label: "Дашборд", icon: LayoutDashboard },
@@ -11,6 +11,7 @@ const navItems = [
   { href: "/admin/orders", label: "Заказы", icon: ShoppingBag },
   { href: "/admin/customers", label: "Клиенты (CRM)", icon: Users },
   { href: "/admin/banners", label: "Баннеры", icon: ImageIcon },
+  { href: "/admin/wb", label: "Wildberries", icon: BarChart2 },
   { href: "/admin/settings", label: "Настройки", icon: Settings },
 ];
 
@@ -23,7 +24,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
       {/* Sidebar */}
       <aside className="w-60 bg-gray-900 text-gray-300 flex flex-col shrink-0">
         <div className="p-5 border-b border-gray-700">
-          <span className="text-white font-bold text-lg">KRZME<span className="text-amber-400"> ADMIN</span></span>
+          <span className="text-white font-bold text-lg">KRZME<span className="text-sky-400"> ADMIN</span></span>
         </div>
         <nav className="flex-1 py-4 px-3 space-y-1">
           {navItems.map(({ href, label, icon: Icon }) => (

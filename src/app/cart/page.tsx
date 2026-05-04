@@ -9,12 +9,14 @@ export default function CartPage() {
   const { items, removeItem, updateQuantity, total, count } = useCart();
 
   if (count() === 0) return (
-    <div className="bg-gray-50 text-gray-900 min-h-screen flex items-center justify-center">
-      <div className="max-w-2xl mx-auto px-4 py-24 text-center">
-        <ShoppingCart className="w-16 h-16 text-gray-300 mx-auto mb-6" />
-        <h1 className="text-2xl font-bold text-gray-900 mb-3">Корзина пуста</h1>
-        <p className="text-gray-500 mb-8">Добавьте товары из каталога</p>
-        <Link href="/catalog" className="inline-flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-semibold px-8 py-3 rounded-full transition-colors">
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center max-w-sm px-4">
+        <div className="w-20 h-20 border border-[var(--border)] flex items-center justify-center mx-auto mb-6">
+          <ShoppingCart className="w-8 h-8 text-[var(--text-dim)]" />
+        </div>
+        <h1 className="text-2xl font-bold font-[family-name:var(--font-exo)] text-white mb-3">Корзина пуста</h1>
+        <p className="text-[var(--text-muted)] text-sm mb-8">Добавьте товары из каталога</p>
+        <Link href="/catalog" className="btn-primary inline-flex">
           Перейти в каталог <ArrowRight className="w-4 h-4" />
         </Link>
       </div>
@@ -22,74 +24,83 @@ export default function CartPage() {
   );
 
   return (
-    <div className="bg-gray-50 text-gray-900 min-h-screen">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Корзина</h1>
+    <div className="min-h-screen">
+      <div className="page-header">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+          <span className="section-label">Покупки</span>
+          <h1 className="text-4xl font-black font-[family-name:var(--font-exo)] text-white mt-1">Корзина</h1>
+          <p className="text-sm text-[var(--text-dim)] mt-2">{count()} товаров</p>
+        </div>
+      </div>
 
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Items */}
-        <div className="flex-1 space-y-4">
-          {items.map((item) => (
-            <div key={item.id} className="flex gap-4 bg-white border border-gray-100 rounded-2xl p-4">
-              <div className="relative w-24 h-24 rounded-xl overflow-hidden bg-gray-50 shrink-0">
-                {item.image ? (
-                  <Image src={item.image} alt={item.name} fill className="object-cover" />
-                ) : (
-                  <div className="w-full h-full flex items-center justify-center text-2xl text-gray-300">🏠</div>
-                )}
-              </div>
-              <div className="flex-1 min-w-0">
-                <Link href={`/product/${item.slug}`} className="font-medium text-gray-900 hover:text-amber-600 transition-colors line-clamp-2">
-                  {item.name}
-                </Link>
-                <p className="text-amber-600 font-bold mt-1">{item.price.toLocaleString("ru")} ₽</p>
-                <div className="flex items-center gap-3 mt-3">
-                  <div className="flex items-center border border-gray-200 rounded-lg">
-                    <button onClick={() => updateQuantity(item.id, item.quantity - 1)} className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-900">−</button>
-                    <span className="w-8 text-center text-sm font-medium">{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, item.quantity + 1)} className="w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-900">+</button>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10">
+        <div className="flex flex-col lg:flex-row gap-8">
+
+          {/* Items */}
+          <div className="flex-1 space-y-3">
+            {items.map((item) => (
+              <div key={item.id} className="flex gap-4 bg-[var(--bg-card)] border border-[var(--border)] p-4 hover:border-[var(--border-hi)] transition-colors">
+                <div className="relative w-24 h-24 shrink-0 overflow-hidden bg-[var(--bg-card-2)]">
+                  {item.image ? (
+                    <Image src={item.image} alt={item.name} fill className="object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-2xl text-[var(--border-hi)]">◻</div>
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <Link href={`/product/${item.slug}`}
+                    className="font-semibold text-white hover:text-[var(--amber)] transition-colors line-clamp-2 text-sm leading-snug">
+                    {item.name}
+                  </Link>
+                  <p className="text-[var(--amber)] font-bold mt-1 text-sm">{item.price.toLocaleString("ru")} ₽</p>
+                  <div className="flex items-center gap-3 mt-3">
+                    <div className="flex items-center border border-[var(--border)] bg-[var(--bg-card-2)]">
+                      <button onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                        className="w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-colors text-lg">−</button>
+                      <span className="w-8 text-center text-sm font-bold text-white">{item.quantity}</span>
+                      <button onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                        className="w-8 h-8 flex items-center justify-center text-[var(--text-muted)] hover:text-white transition-colors text-lg">+</button>
+                    </div>
+                    <span className="text-sm font-bold text-white">{(item.price * item.quantity).toLocaleString("ru")} ₽</span>
                   </div>
-                  <span className="text-sm font-bold text-gray-900">{(item.price * item.quantity).toLocaleString("ru")} ₽</span>
+                </div>
+                <button onClick={() => removeItem(item.id)}
+                  className="shrink-0 p-2 text-[var(--text-dim)] hover:text-red-400 transition-colors">
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+
+          {/* Summary */}
+          <div className="w-full lg:w-80 shrink-0">
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] p-6 sticky top-20">
+              <h2 className="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-5">Ваш заказ</h2>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between text-[var(--text-muted)]">
+                  <span>Товары ({count()} шт)</span>
+                  <span>{total().toLocaleString("ru")} ₽</span>
+                </div>
+                <div className="flex justify-between text-[var(--text-muted)]">
+                  <span>Доставка</span>
+                  <span className="text-emerald-400">Бесплатно</span>
+                </div>
+                <div className="border-t border-[var(--border)] pt-3 flex justify-between font-bold text-white text-base">
+                  <span>К оплате</span>
+                  <span className="text-[var(--amber)]">{total().toLocaleString("ru")} ₽</span>
                 </div>
               </div>
-              <button onClick={() => removeItem(item.id)} className="shrink-0 p-2 text-gray-400 hover:text-red-500 transition-colors">
-                <Trash2 className="w-4 h-4" />
-              </button>
+              <Link href="/checkout" className="btn-primary mt-6 block text-center w-full">
+                Оформить заказ
+              </Link>
+              <Link href="/catalog"
+                className="mt-3 block text-center text-xs text-[var(--text-dim)] hover:text-[var(--amber)] transition-colors tracking-wide uppercase">
+                Продолжить покупки
+              </Link>
             </div>
-          ))}
-        </div>
-
-        {/* Summary */}
-        <div className="w-full lg:w-80 shrink-0">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6 sticky top-24">
-            <h2 className="font-bold text-gray-900 text-lg mb-4">Итого</h2>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between text-gray-600">
-                <span>Товары ({count()} шт)</span>
-                <span>{total().toLocaleString("ru")} ₽</span>
-              </div>
-              <div className="flex justify-between text-gray-600">
-                <span>Доставка</span>
-                <span className="text-emerald-600">Бесплатно</span>
-              </div>
-              <div className="border-t pt-3 flex justify-between font-bold text-gray-900 text-base">
-                <span>К оплате</span>
-                <span>{total().toLocaleString("ru")} ₽</span>
-              </div>
-            </div>
-            <Link
-              href="/checkout"
-              className="mt-6 block w-full bg-amber-500 hover:bg-amber-600 text-white font-semibold py-3.5 rounded-xl text-center transition-colors"
-            >
-              Оформить заказ
-            </Link>
-            <Link href="/catalog" className="mt-3 block text-center text-sm text-gray-500 hover:text-gray-900 transition-colors">
-              Продолжить покупки
-            </Link>
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 }

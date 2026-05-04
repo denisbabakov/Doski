@@ -57,7 +57,7 @@ export default async function AdminOrdersPage() {
                   </td>
                   <td className="px-5 py-3 text-sm text-gray-500">{new Date(o.createdAt).toLocaleDateString("ru")}</td>
                   <td className="px-5 py-3">
-                    <Link href={`/admin/orders/${o.id}`} className="text-xs text-amber-500 hover:underline">Открыть</Link>
+                    <Link href={`/admin/orders/${o.id}`} className="text-xs text-sky-500 hover:underline">Открыть</Link>
                   </td>
                 </tr>
               ))}

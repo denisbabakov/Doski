@@ -127,7 +127,7 @@ export default function AdminProductForm() {
                 <input type="text" value={img} onChange={(e) => {
                   const imgs = [...form.images]; imgs[i] = e.target.value; setForm(f => ({ ...f, images: imgs }));
                 }} placeholder="https://..." className="flex-1 border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
-                <button onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, j) => j !== i) }))} className="px-3 text-gray-400 hover:text-red-500">×</button>
+                <button onClick={() => setForm(f => ({ ...f, images: f.images.filter((_, j) => j !== i) }))} className="px-3 text-gray-400 hover:text-red-500">?</button>
               </div>
             ))}
             <button onClick={() => setForm(f => ({ ...f, images: [...f.images, ""] }))} className="text-sm text-amber-500 hover:underline">+ Добавить изображение</button>

@@ -13,6 +13,8 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "drive.google.com" },
       { protocol: "https", hostname: "**.ibb.co" },
       { protocol: "https", hostname: "i.ibb.co" },
+      { protocol: "https", hostname: "**.wbbasket.ru" },
+      { protocol: "https", hostname: "**.wildberries.ru" },
     ],
   },
 };

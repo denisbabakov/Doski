@@ -37,7 +37,7 @@ export default function AdminCollectionsPage() {
     setUpdating(null);
   };
 
-  if (loading) return <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-amber-500 border-t-transparent rounded-full animate-spin" /></div>;
+  if (loading) return <div className="p-8 flex justify-center"><div className="w-8 h-8 border-4 border-sky-500 border-t-transparent rounded-full animate-spin" /></div>;
 
   const newCount = products.filter((p) => p.isNew).length;
   const featuredCount = products.filter((p) => p.isFeatured).length;
@@ -102,7 +102,7 @@ export default function AdminCollectionsPage() {
                     <button
                       onClick={() => toggle(p, "isFeatured")}
                       disabled={updating === p.id + "isFeatured"}
-                      className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${p.isFeatured ? "bg-amber-100 text-amber-700 hover:bg-amber-200" : "bg-gray-100 text-gray-400 hover:bg-gray-200"}`}
+                      className={`px-3 py-1 rounded-full text-xs font-medium transition-colors ${p.isFeatured ? "bg-sky-100 text-sky-700 hover:bg-sky-200" : "bg-gray-100 text-gray-400 hover:bg-gray-200"}`}
                     >
                       {p.isFeatured ? "✓ Хит" : "—"}
                     </button>

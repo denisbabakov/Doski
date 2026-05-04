@@ -37,7 +37,7 @@ function CategoryRow({ c, editing, startEdit, toggleVisible, handleDelete, isChi
   return (
     <div
       onClick={() => startEdit(c)}
-      className={`bg-white rounded-2xl border transition-all cursor-pointer ${editing === c.id ? "border-amber-400 ring-1 ring-amber-300" : "border-gray-100 hover:border-gray-200"}`}
+      className={`bg-white rounded-2xl border transition-all cursor-pointer ${editing === c.id ? "border-sky-400 ring-1 ring-sky-300" : "border-gray-100 hover:border-gray-200"}`}
     >
       <div className="flex items-center gap-3 p-4">
         <div className={`rounded-xl bg-gray-100 overflow-hidden shrink-0 flex items-center justify-center ${isChild ? "w-10 h-10" : "w-14 h-14"}`}>
@@ -156,7 +156,7 @@ export default function AdminCategoriesPage() {
         <h1 className="text-2xl font-bold text-gray-900">Категории</h1>
         <button
           onClick={startCreate}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2 rounded-xl transition-colors text-sm"
+          className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-medium px-4 py-2 rounded-xl transition-colors text-sm"
         >
           <Plus className="w-4 h-4" /> Добавить
         </button>
@@ -195,13 +195,13 @@ export default function AdminCategoriesPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Название *</label>
                 <input type="text" value={form.name} onChange={set("name")} placeholder="Банные чаны"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Slug (URL) *</label>
                 <input type="text" value={form.slug} onChange={set("slug")} placeholder="bannye-chany"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-mono focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm font-mono focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
                 <p className="text-xs text-gray-400 mt-1">Латиница, без пробелов. Генерируется автоматически.</p>
               </div>
 
@@ -211,7 +211,7 @@ export default function AdminCategoriesPage() {
                 </label>
                 <input type="text" value={form.image} onChange={set("image")}
                   placeholder="https://i.imgur.com/abc123.jpg или 🛁"
-                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${form.image.startsWith("blob:") ? "border-red-400 focus:border-red-400 focus:ring-red-300" : "border-gray-200 focus:border-amber-500 focus:ring-amber-500"}`} />
+                  className={`w-full border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-1 ${form.image.startsWith("blob:") ? "border-red-400 focus:border-red-400 focus:ring-red-300" : "border-gray-200 focus:border-sky-500 focus:ring-sky-500"}`} />
 
                 {/* blob: warning */}
                 {form.image.startsWith("blob:") && (
@@ -244,7 +244,7 @@ export default function AdminCategoriesPage() {
                 <select
                   value={form.parentId ?? ""}
                   onChange={(e) => setForm((f) => ({ ...f, parentId: e.target.value || null }))}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500"
                 >
                   <option value="">— Корневая категория —</option>
                   {categories.filter((c) => !c.parentId && c.id !== editing).map((c) => (
@@ -257,27 +257,27 @@ export default function AdminCategoriesPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-1">Описание</label>
                 <textarea value={form.description} onChange={set("description")} rows={2}
                   placeholder="Краткое описание категории..."
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 resize-none" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 resize-none" />
               </div>
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Порядок сортировки</label>
                 <input type="number" value={form.sortOrder}
                   onChange={(e) => setForm((f) => ({ ...f, sortOrder: Number(e.target.value) }))}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
               </div>
 
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={form.isVisible}
                   onChange={(e) => setForm((f) => ({ ...f, isVisible: e.target.checked }))}
-                  className="w-4 h-4 rounded accent-amber-500" />
+                  className="w-4 h-4 rounded accent-sky-500" />
                 <span className="text-sm text-gray-700">Показывать на сайте</span>
               </label>
             </div>
 
             <div className="flex gap-3 mt-5">
               <button onClick={handleSave} disabled={saving || !form.name || !form.slug || form.image.startsWith("blob:")}
-                className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm">
+                className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm">
                 <Save className="w-4 h-4" /> {saving ? "Сохраняем..." : "Сохранить"}
               </button>
               <button onClick={cancel}

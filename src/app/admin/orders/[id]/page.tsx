@@ -74,16 +74,16 @@ export default function AdminOrderPage() {
             <div className="space-y-3">
               {order.items.map((item) => (
                 <div key={item.id} className="flex justify-between items-center text-sm">
-                  <span className="text-gray-700">{item.name} × {item.quantity}</span>
-                  <span className="font-medium">{item.total.toLocaleString("ru")} ₽</span>
+                  <span className="text-gray-700">{item.name} ? {item.quantity}</span>
+                  <span className="font-medium">{item.total.toLocaleString("ru")} ?</span>
                 </div>
               ))}
             </div>
             <div className="border-t mt-4 pt-4 space-y-1 text-sm">
-              <div className="flex justify-between text-gray-500"><span>Подитог</span><span>{order.subtotal.toLocaleString("ru")} ₽</span></div>
-              <div className="flex justify-between text-gray-500"><span>Доставка</span><span>{order.deliveryCost > 0 ? `${order.deliveryCost.toLocaleString("ru")} ₽` : "Бесплатно"}</span></div>
-              {order.discount > 0 && <div className="flex justify-between text-emerald-600"><span>Скидка</span><span>−{order.discount.toLocaleString("ru")} ₽</span></div>}
-              <div className="flex justify-between font-bold text-base text-gray-900 pt-1 border-t"><span>Итого</span><span>{order.total.toLocaleString("ru")} ₽</span></div>
+              <div className="flex justify-between text-gray-500"><span>Подитог</span><span>{order.subtotal.toLocaleString("ru")} ?</span></div>
+              <div className="flex justify-between text-gray-500"><span>Доставка</span><span>{order.deliveryCost > 0 ? `${order.deliveryCost.toLocaleString("ru")} ?` : "Бесплатно"}</span></div>
+              {order.discount > 0 && <div className="flex justify-between text-emerald-600"><span>Скидка</span><span>?{order.discount.toLocaleString("ru")} ?</span></div>}
+              <div className="flex justify-between font-bold text-base text-gray-900 pt-1 border-t"><span>Итого</span><span>{order.total.toLocaleString("ru")} ?</span></div>
             </div>
           </div>
 

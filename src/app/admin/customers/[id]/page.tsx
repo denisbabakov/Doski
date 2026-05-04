@@ -89,7 +89,7 @@ export default function AdminCustomerPage() {
           <div className="grid grid-cols-3 gap-4">
             {[
               { label: "Заказов", value: customer.orderCount },
-              { label: "Выручка", value: customer.lifetimeValue > 0 ? `${customer.lifetimeValue.toLocaleString("ru")} ₽` : "0 ₽" },
+              { label: "Выручка", value: customer.lifetimeValue > 0 ? `${customer.lifetimeValue.toLocaleString("ru")} ?` : "0 ?" },
               { label: "Регистрация", value: new Date(customer.createdAt).toLocaleDateString("ru") },
             ].map(({ label, value }) => (
               <div key={label} className="bg-white rounded-2xl border border-gray-100 p-4">
@@ -113,7 +113,7 @@ export default function AdminCustomerPage() {
                     <div>
                       <p className="text-sm font-mono font-medium text-gray-900">#{o.orderNumber}</p>
                       <p className="text-xs text-gray-400 mt-0.5">
-                        {o.items.map((i) => `${i.name} ×${i.quantity}`).join(", ")}
+                        {o.items.map((i) => `${i.name} ?${i.quantity}`).join(", ")}
                       </p>
                     </div>
                     <div className="flex items-center gap-3 text-right">
@@ -121,7 +121,7 @@ export default function AdminCustomerPage() {
                         {ORDER_STATUS_LABELS[o.status] || o.status}
                       </span>
                       <div>
-                        <p className="text-sm font-semibold">{o.total.toLocaleString("ru")} ₽</p>
+                        <p className="text-sm font-semibold">{o.total.toLocaleString("ru")} ?</p>
                         <p className="text-xs text-gray-400">{new Date(o.createdAt).toLocaleDateString("ru")}</p>
                       </div>
                       <Link href={`/admin/orders/${o.id}`} className="text-xs text-amber-500 hover:underline">

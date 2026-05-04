@@ -18,23 +18,22 @@ export default function CheckoutPage() {
     return null;
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
       const res = await fetch("/api/orders", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, items: items.map((i) => ({ productId: i.id, quantity: i.quantity, price: i.price, name: i.name, image: i.image })), total: total() }),
+        body: JSON.stringify({
+          ...form,
+          items: items.map((i) => ({ productId: i.id, quantity: i.quantity, price: i.price, name: i.name, image: i.image })),
+          total: total(),
+        }),
       });
       const data = await res.json();
-      if (data.paymentUrl) {
-        clearCart();
-        window.location.href = data.paymentUrl;
-      } else if (data.orderNumber) {
-        clearCart();
-        router.push(`/order-success?order=${data.orderNumber}`);
-      }
+      if (data.paymentUrl) { clearCart(); window.location.href = data.paymentUrl; }
+      else if (data.orderNumber) { clearCart(); router.push(`/order-success?order=${data.orderNumber}`); }
     } catch {
       alert("Ошибка при оформлении заказа");
     } finally {
@@ -46,113 +45,125 @@ export default function CheckoutPage() {
     setForm((f) => ({ ...f, [key]: e.target.value }));
 
   return (
-    <div className="bg-gray-50 text-gray-900 min-h-screen">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8">
-      <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-8">Оформление заказа</h1>
-
-      <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8">
-        {/* Form */}
-        <div className="flex-1 space-y-6">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6">
-            <h2 className="font-bold text-gray-900 mb-5">Контактные данные</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { label: "Имя", key: "name", required: true, placeholder: "Иван Иванов" },
-                { label: "Телефон", key: "phone", required: true, placeholder: "+7 (900) 000-00-00" },
-                { label: "Email", key: "email", required: false, placeholder: "ivan@mail.ru", type: "email" },
-              ].map(({ label, key, required, placeholder, type }) => (
-                <div key={key} className={key === "email" ? "sm:col-span-2" : ""}>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    {label} {required && <span className="text-red-500">*</span>}
-                  </label>
-                  <input
-                    type={type || "text"}
-                    value={form[key as keyof typeof form]}
-                    onChange={set(key)}
-                    required={required}
-                    placeholder={placeholder}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-white border border-gray-100 rounded-2xl p-6">
-            <h2 className="font-bold text-gray-900 mb-5">Адрес доставки</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { label: "Город", key: "city", required: true, placeholder: "Москва", span: 2 },
-                { label: "Улица, дом", key: "street", required: true, placeholder: "ул. Ленина, 10", span: 2 },
-                { label: "Квартира", key: "apartment", required: false, placeholder: "42" },
-                { label: "Индекс", key: "zip", required: false, placeholder: "123456" },
-              ].map(({ label, key, required, placeholder, span }) => (
-                <div key={key} className={span === 2 ? "sm:col-span-2" : ""}>
-                  <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                    {label} {required && <span className="text-red-500">*</span>}
-                  </label>
-                  <input
-                    type="text"
-                    value={form[key as keyof typeof form]}
-                    onChange={set(key)}
-                    required={required}
-                    placeholder={placeholder}
-                    className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors"
-                  />
-                </div>
-              ))}
-            </div>
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-1.5">Комментарий к заказу</label>
-              <textarea
-                value={form.notes}
-                onChange={set("notes")}
-                placeholder="Дополнительные пожелания..."
-                rows={3}
-                className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500 transition-colors resize-none"
-              />
-            </div>
-          </div>
+    <div className="min-h-screen">
+      <div className="page-header">
+        <div className="relative max-w-7xl mx-auto px-4 sm:px-6">
+          <span className="section-label">Покупка</span>
+          <h1 className="text-4xl font-black font-[family-name:var(--font-exo)] text-white mt-1">Оформление заказа</h1>
         </div>
+      </div>
 
-        {/* Summary */}
-        <div className="w-full lg:w-80 shrink-0">
-          <div className="bg-white border border-gray-100 rounded-2xl p-6 sticky top-24">
-            <h2 className="font-bold text-gray-900 mb-4">Ваш заказ</h2>
-            <div className="space-y-3 mb-4 max-h-64 overflow-y-auto">
-              {items.map((i) => (
-                <div key={i.id} className="flex justify-between text-sm">
-                  <span className="text-gray-600 line-clamp-1 flex-1 mr-2">{i.name} × {i.quantity}</span>
-                  <span className="font-medium shrink-0">{(i.price * i.quantity).toLocaleString("ru")} ₽</span>
-                </div>
-              ))}
-            </div>
-            <div className="border-t pt-4 space-y-2 text-sm">
-              <div className="flex justify-between text-gray-600">
-                <span>Доставка</span>
-                <span className="text-emerald-600">Бесплатно</span>
-              </div>
-              <div className="flex justify-between font-bold text-base text-gray-900">
-                <span>Итого</span>
-                <span>{total().toLocaleString("ru")} ₽</span>
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
+        <form onSubmit={handleSubmit} className="flex flex-col lg:flex-row gap-8">
+
+          {/* Form */}
+          <div className="flex-1 space-y-5">
+            {/* Contact */}
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] p-6">
+              <h2 className="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-5">Контактные данные</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { label: "Имя",     key: "name",  req: true,  ph: "Иван Иванов" },
+                  { label: "Телефон", key: "phone", req: true,  ph: "+7 (900) 000-00-00" },
+                  { label: "Email",   key: "email", req: false, ph: "ivan@mail.ru", type: "email", span: true },
+                ].map(({ label, key, req, ph, type, span }) => (
+                  <div key={key} className={span ? "sm:col-span-2" : ""}>
+                    <label className="block text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wider mb-2">
+                      {label} {req && <span className="text-[var(--amber)]">*</span>}
+                    </label>
+                    <input
+                      type={type || "text"}
+                      value={form[key as keyof typeof form]}
+                      onChange={set(key)}
+                      required={req}
+                      placeholder={ph}
+                      className="input-dark"
+                    />
+                  </div>
+                ))}
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={loading}
-              className="mt-6 w-full bg-amber-500 hover:bg-amber-600 disabled:opacity-60 disabled:cursor-not-allowed text-white font-semibold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2"
-            >
-              {loading ? <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" /> : null}
-              {loading ? "Оформляем..." : "Оплатить заказ"}
-            </button>
-            <p className="mt-3 text-xs text-gray-400 text-center">
-              Нажимая кнопку, вы соглашаетесь с{" "}
-              <Link href="#" className="underline">условиями оферты</Link>
-            </p>
+
+            {/* Address */}
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] p-6">
+              <h2 className="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-5">Адрес доставки</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {[
+                  { label: "Город",      key: "city",      req: true,  ph: "Москва",            span: true },
+                  { label: "Улица, дом", key: "street",    req: true,  ph: "ул. Ленина, 10",    span: true },
+                  { label: "Квартира",   key: "apartment", req: false, ph: "42" },
+                  { label: "Индекс",     key: "zip",       req: false, ph: "123456" },
+                ].map(({ label, key, req, ph, span }) => (
+                  <div key={key} className={span ? "sm:col-span-2" : ""}>
+                    <label className="block text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wider mb-2">
+                      {label} {req && <span className="text-[var(--amber)]">*</span>}
+                    </label>
+                    <input
+                      type="text"
+                      value={form[key as keyof typeof form]}
+                      onChange={set(key)}
+                      required={req}
+                      placeholder={ph}
+                      className="input-dark"
+                    />
+                  </div>
+                ))}
+              </div>
+              <div className="mt-3">
+                <label className="block text-xs font-semibold text-[var(--text-dim)] uppercase tracking-wider mb-2">
+                  Комментарий
+                </label>
+                <textarea
+                  value={form.notes}
+                  onChange={set("notes")}
+                  placeholder="Дополнительные пожелания..."
+                  rows={3}
+                  className="input-dark resize-none"
+                />
+              </div>
+            </div>
           </div>
-        </div>
-      </form>
-    </div>
+
+          {/* Summary */}
+          <div className="w-full lg:w-80 shrink-0">
+            <div className="bg-[var(--bg-card)] border border-[var(--border)] p-6 sticky top-20">
+              <h2 className="text-xs font-bold tracking-widest uppercase text-[var(--text-dim)] mb-5">Ваш заказ</h2>
+              <div className="space-y-2 mb-5 max-h-60 overflow-y-auto pr-1">
+                {items.map((i) => (
+                  <div key={i.id} className="flex justify-between text-sm gap-2">
+                    <span className="text-[var(--text-muted)] line-clamp-1 flex-1">{i.name} × {i.quantity}</span>
+                    <span className="font-medium text-white shrink-0">{(i.price * i.quantity).toLocaleString("ru")} ₽</span>
+                  </div>
+                ))}
+              </div>
+              <div className="border-t border-[var(--border)] pt-4 space-y-2 text-sm">
+                <div className="flex justify-between text-[var(--text-muted)]">
+                  <span>Доставка</span>
+                  <span className="text-emerald-400">Бесплатно</span>
+                </div>
+                <div className="flex justify-between font-bold text-base">
+                  <span className="text-white">Итого</span>
+                  <span className="text-[var(--amber)]">{total().toLocaleString("ru")} ₽</span>
+                </div>
+              </div>
+              <button
+                type="submit"
+                disabled={loading}
+                className="btn-primary mt-6 w-full disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {loading
+                  ? <><span className="w-4 h-4 border-2 border-black border-t-transparent rounded-full spin" /> Оформляем...</>
+                  : "Оплатить заказ"
+                }
+              </button>
+              <p className="mt-3 text-[10px] text-[var(--text-dim)] text-center">
+                Нажимая кнопку, вы соглашаетесь с{" "}
+                <Link href="#" className="text-[var(--amber)] hover:underline">условиями оферты</Link>
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
   );
 }

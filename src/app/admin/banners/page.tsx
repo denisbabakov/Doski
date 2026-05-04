@@ -95,7 +95,7 @@ export default function AdminBannersPage() {
         <h1 className="text-2xl font-bold text-gray-900">Баннеры</h1>
         <button
           onClick={startCreate}
-          className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 text-white font-medium px-4 py-2 rounded-xl transition-colors text-sm"
+          className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 text-white font-medium px-4 py-2 rounded-xl transition-colors text-sm"
         >
           <Plus className="w-4 h-4" /> Добавить
         </button>
@@ -113,7 +113,7 @@ export default function AdminBannersPage() {
             <div
               key={b.id}
               onClick={() => startEdit(b)}
-              className={`bg-white rounded-2xl border transition-all cursor-pointer ${editing === b.id ? "border-amber-400 ring-1 ring-amber-300" : "border-gray-100 hover:border-gray-200"}`}
+              className={`bg-white rounded-2xl border transition-all cursor-pointer ${editing === b.id ? "border-sky-400 ring-1 ring-sky-300" : "border-gray-100 hover:border-gray-200"}`}
             >
               <div className="flex items-center gap-3 p-4">
                 <GripVertical className="w-4 h-4 text-gray-400 shrink-0" />
@@ -157,17 +157,17 @@ export default function AdminBannersPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Заголовок *</label>
                 <input type="text" value={form.title} onChange={set("title")} placeholder="Новая коллекция"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Подзаголовок</label>
                 <input type="text" value={form.subtitle} onChange={set("subtitle")} placeholder="Скидки до 50%"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">URL изображения *</label>
                 <input type="text" value={form.image} onChange={set("image")} placeholder="https://..."
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
                 {form.image && (
                   <div className="mt-2 rounded-xl overflow-hidden h-28 bg-gray-100">
                     <Image src={form.image} alt="" width={400} height={112} className="object-cover w-full h-full" />
@@ -177,23 +177,23 @@ export default function AdminBannersPage() {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Ссылка (URL)</label>
                 <input type="text" value={form.link} onChange={set("link")} placeholder="/catalog"
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Порядок сортировки</label>
                 <input type="number" value={form.sortOrder} onChange={(e) => setForm((f) => ({ ...f, sortOrder: Number(e.target.value) }))}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500" />
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input type="checkbox" checked={form.isActive} onChange={(e) => setForm((f) => ({ ...f, isActive: e.target.checked }))}
-                  className="w-4 h-4 rounded accent-amber-500" />
+                  className="w-4 h-4 rounded accent-sky-500" />
                 <span className="text-sm text-gray-700">Активен (показывать на сайте)</span>
               </label>
             </div>
 
             <div className="flex gap-3 mt-5">
               <button onClick={handleSave} disabled={saving || !form.title || !form.image}
-                className="flex items-center gap-2 bg-amber-500 hover:bg-amber-600 disabled:opacity-50 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm">
+                className="flex items-center gap-2 bg-sky-500 hover:bg-sky-600 disabled:opacity-50 text-white font-medium px-5 py-2.5 rounded-xl transition-colors text-sm">
                 <Save className="w-4 h-4" /> {saving ? "Сохраняем..." : "Сохранить"}
               </button>
               <button onClick={cancel} className="px-5 py-2.5 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition-colors">
