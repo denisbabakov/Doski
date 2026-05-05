@@ -209,7 +209,7 @@ export default async function HomePage() {
               <span className="section-label">Почему мы</span>
               <h2 className="text-3xl font-bold font-[family-name:var(--font-exo)] text-white">Наши преимущества</h2>
             </div>
-            <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--border)]">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-px bg-[var(--border)]">
               {[
                 { icon: Truck,       title: "Быстрая доставка",  text: "По всей России от 1 дня" },
                 { icon: Shield,      title: "Гарантия качества", text: "Только проверенные товары" },
