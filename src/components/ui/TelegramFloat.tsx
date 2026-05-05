@@ -2,11 +2,11 @@
 
 export default function TelegramFloat({ handle }: { handle?: string | null }) {
   if (!handle) return null;
-  const tgHandle = handle.replace("@", "");
+  const href = handle.startsWith("http") ? handle : `https://t.me/${handle.replace("@", "")}`;
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-center gap-1">
       <a
-        href={`https://t.me/${tgHandle}`}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         aria-label="Написать в Telegram"

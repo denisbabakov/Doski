@@ -76,7 +76,7 @@ export default function AdminSettingsPage() {
       title: "Социальные сети",
       fields: [
         { label: "ВКонтакте (URL)", key: "socialVk" as keyof Settings },
-        { label: "Telegram (URL)", key: "socialTg" as keyof Settings },
+        { label: "Telegram для кнопки «Заказать» (@username или t.me/...)", key: "socialTg" as keyof Settings },
         { label: "Instagram (URL)", key: "socialInst" as keyof Settings },
       ],
     },
