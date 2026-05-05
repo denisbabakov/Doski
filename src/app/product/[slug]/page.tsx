@@ -6,7 +6,7 @@ import Image from "next/image";
 import { Phone, MessageCircle, Star, ChevronLeft } from "lucide-react";
 import Link from "next/link";
 
-const CONTACT_CATEGORIES = ["bannye-chany", "akva-blast"];
+const CONTACT_CATEGORIES = ["bannye-chany", "gotovye-bannye-chany", "готовые-банные-чаны", "akva-blast", "akva-blast-pro"];
 
 interface Product {
   id: string; name: string; slug: string; price: number; comparePrice?: number;
