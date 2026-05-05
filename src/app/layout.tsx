@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
 import CursorGlow from "@/components/ui/CursorGlow";
+import TelegramFloat from "@/components/ui/TelegramFloat";
 import { prisma } from "@/lib/prisma";
 
 const exo2 = Exo_2({ variable: "--font-exo", subsets: ["latin", "cyrillic"], weight: ["400","600","700","800","900"] });
@@ -33,6 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
         <Header storeName={storeName} />
         <div className="flex-1">{children}</div>
         <Footer storeName={storeName} phone={s?.phone} email={s?.email} socialVk={s?.socialVk} socialTg={s?.socialTg} />
+        <TelegramFloat handle={s?.socialTg} />
       </body>
     </html>
   );
