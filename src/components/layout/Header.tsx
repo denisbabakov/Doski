@@ -1,18 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart, User, Search, Menu, Heart, X } from "lucide-react";
-import { useCart } from "@/store/cart";
+import { User, Search, Menu, Heart, X } from "lucide-react";
 import { useState, useEffect } from "react";
 
 export default function Header({ storeName = "AQUA STEEL" }: { storeName?: string }) {
-  const count = useCart((s) => s.count());
   const [menuOpen, setMenuOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
     const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
@@ -58,14 +54,6 @@ export default function Header({ storeName = "AQUA STEEL" }: { storeName?: strin
             </Link>
             <Link href="/account" className="hidden sm:flex p-2.5 rounded-lg hover:bg-[#1a1a1a] transition-colors">
               <User className="w-4.5 h-4.5 text-[#888] hover:text-white" />
-            </Link>
-            <Link href="/cart" className="relative flex p-2.5 rounded-lg hover:bg-[#1a1a1a] transition-colors">
-              <ShoppingCart className="w-4.5 h-4.5 text-[#888] hover:text-white" />
-              {mounted && count > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 bg-[var(--amber)] text-black text-[9px] font-bold rounded-full flex items-center justify-center">
-                  {count > 9 ? "9+" : count}
-                </span>
-              )}
             </Link>
             <button
               onClick={() => setMenuOpen(!menuOpen)}

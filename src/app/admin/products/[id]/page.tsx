@@ -12,6 +12,7 @@ const emptyProduct = {
   sku: "", stock: 0, images: [""], categoryId: "", tags: "",
   isVisible: true, isFeatured: false, isNew: false,
   metaTitle: "", metaDesc: "",
+  contactPhone: "", contactTelegram: "",
 };
 
 export default function AdminProductForm() {
@@ -117,6 +118,23 @@ export default function AdminProductForm() {
                 </div>
               ))}
             </div>
+          </div>
+
+          {/* Contact */}
+          <div className="bg-white border border-gray-100 rounded-2xl p-5 space-y-4">
+            <h3 className="font-semibold text-gray-900">Контакты для заказа</h3>
+            <p className="text-xs text-gray-400">Для категорий "Банные чаны" и "Аква бласт"</p>
+            {[
+              { label: "Телефон", key: "contactPhone", placeholder: "+7 999 123-45-67" },
+              { label: "Telegram (без @)", key: "contactTelegram", placeholder: "username" },
+            ].map(({ label, key, placeholder }) => (
+              <div key={key}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+                <input type="text" value={(form as unknown as Record<string, string>)[key]} onChange={set(key)}
+                  placeholder={placeholder}
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:border-amber-500 focus:ring-1 focus:ring-amber-500" />
+              </div>
+            ))}
           </div>
 
           {/* Images */}

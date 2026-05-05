@@ -3,14 +3,16 @@
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
 import Image from "next/image";
-import { ShoppingCart, Heart, Star, ChevronLeft } from "lucide-react";
+import { Phone, MessageCircle, Star, ChevronLeft } from "lucide-react";
 import Link from "next/link";
-import { useCart } from "@/store/cart";
+
+const CONTACT_CATEGORIES = ["bannye-chany", "akva-blast"];
 
 interface Product {
   id: string; name: string; slug: string; price: number; comparePrice?: number;
   images: string[]; description?: string; shortDesc?: string; stock: number;
   isNew: boolean; isFeatured: boolean; sku?: string;
+  contactPhone?: string; contactTelegram?: string;
   category?: { name: string; slug: string };
   reviews: Array<{ rating: number; comment?: string; user: { name?: string }; createdAt: string }>;
 }
@@ -20,9 +22,6 @@ export default function ProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [qty, setQty] = useState(1);
-  const [added, setAdded] = useState(false);
-  const addItem = useCart((s) => s.addItem);
 
   useEffect(() => {
     fetch(`/api/products/${slug}`)
@@ -52,13 +51,7 @@ export default function ProductPage() {
     ? product.reviews.reduce((s, r) => s + r.rating, 0) / product.reviews.length
     : 0;
 
-  const handleAdd = () => {
-    for (let i = 0; i < qty; i++) {
-      addItem({ id: product.id, name: product.name, price: product.price, image: product.images[0], slug: product.slug });
-    }
-    setAdded(true);
-    setTimeout(() => setAdded(false), 2000);
-  };
+  const isContactCategory = product.category && CONTACT_CATEGORIES.includes(product.category.slug);
 
   return (
     <div className="min-h-screen">
@@ -154,25 +147,26 @@ export default function ProductPage() {
               {product.sku && <span className="text-xs text-[var(--text-dim)] ml-2">Арт: {product.sku}</span>}
             </div>
 
-            {/* Qty + CTA */}
-            {product.stock > 0 && (
-              <div className="flex items-stretch gap-3 mt-8">
-                <div className="flex items-center border border-[var(--border)] bg-[var(--bg-card)]">
-                  <button onClick={() => setQty(Math.max(1, qty - 1))}
-                    className="w-11 h-11 flex items-center justify-center text-[var(--text-muted)] hover:text-white text-lg transition-colors">−</button>
-                  <span className="w-10 text-center font-bold text-white">{qty}</span>
-                  <button onClick={() => setQty(Math.min(product.stock, qty + 1))}
-                    className="w-11 h-11 flex items-center justify-center text-[var(--text-muted)] hover:text-white text-lg transition-colors">+</button>
-                </div>
-                <button onClick={handleAdd} className="btn-primary flex-1">
-                  <ShoppingCart className="w-4 h-4" />
-                  {added ? "Добавлено!" : "В корзину"}
-                </button>
-                <button className="w-12 h-12 border border-[var(--border)] flex items-center justify-center hover:border-[var(--amber)] hover:text-[var(--amber)] transition-colors text-[var(--text-muted)]">
-                  <Heart className="w-4 h-4" />
-                </button>
-              </div>
-            )}
+            {/* CTA */}
+            <div className="flex flex-col gap-3 mt-8">
+              {isContactCategory ? (
+                <>
+                  {product.contactPhone && (
+                    <a href={`tel:${product.contactPhone}`} className="btn-primary w-full justify-center">
+                      <Phone className="w-4 h-4" />
+                      Позвонить — {product.contactPhone}
+                    </a>
+                  )}
+                  {product.contactTelegram && (
+                    <a href={`https://t.me/${product.contactTelegram.replace("@", "")}`} target="_blank" rel="noopener noreferrer"
+                      className="btn-secondary w-full justify-center">
+                      <MessageCircle className="w-4 h-4" />
+                      Написать в Telegram
+                    </a>
+                  )}
+                </>
+              ) : null}
+            </div>
 
             {product.description && (
               <div className="mt-8 pt-6 border-t border-[var(--border)]">

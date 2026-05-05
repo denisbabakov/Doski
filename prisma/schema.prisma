@@ -120,6 +120,8 @@ model Product {
   isNew        Boolean   @default(false)
   metaTitle    String?
   metaDesc     String?
+  contactPhone    String?
+  contactTelegram String?
   wbArticle    Int?
   wbUrl        String?
   isWb         Boolean   @default(false)
