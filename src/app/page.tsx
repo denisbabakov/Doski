@@ -6,7 +6,7 @@ import ProductCard from "@/components/store/ProductCard";
 import RevealSection from "@/components/store/RevealSection";
 import StatsCounter from "@/components/store/StatsCounter";
 import HeroPanels from "@/components/ui/HeroPanels";
-import { ArrowRight, Truck, Shield, RefreshCw, Headphones } from "lucide-react";
+import { ArrowRight, Truck, Shield, Headphones } from "lucide-react";
 
 async function getFeaturedProducts() {
   try { return await prisma.product.findMany({ where: { isFeatured: true, isVisible: true }, take: 8, orderBy: { createdAt: "desc" } }); }
@@ -213,8 +213,7 @@ export default async function HomePage() {
               {[
                 { icon: Truck,       title: "Быстрая доставка",  text: "По всей России от 1 дня" },
                 { icon: Shield,      title: "Гарантия качества", text: "Только проверенные товары" },
-                { icon: RefreshCw,   title: "Лёгкий возврат",    text: "30 дней без вопросов" },
-                { icon: Headphones,  title: "Поддержка",          text: "Всегда на связи" },
+{ icon: Headphones,  title: "Поддержка",          text: "Всегда на связи" },
               ].map(({ icon: Icon, title, text }) => (
                 <div key={title} className="group flex flex-col items-center text-center p-10 bg-[var(--bg-card)] hover:bg-[var(--bg-card-2)] transition-colors cursor-default">
                   <div className="w-12 h-12 border border-[var(--border)] group-hover:border-[var(--amber)] flex items-center justify-center mb-5 transition-colors">
