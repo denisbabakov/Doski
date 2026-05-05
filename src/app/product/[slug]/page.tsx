@@ -8,6 +8,25 @@ import Link from "next/link";
 
 const CONTACT_CATEGORIES = ["bannye-chany", "gotovye-bannye-chany", "готовые-банные-чаны", "akva-blast", "akva-blast-pro"];
 
+function PhoneRevealButton({ phone }: { phone: string }) {
+  const [revealed, setRevealed] = useState(false);
+  return (
+    <div className="relative h-12 overflow-hidden w-full" style={{ cursor: revealed ? "default" : "pointer" }} onClick={() => !revealed && setRevealed(true)}>
+      {/* Нижний слой — номер телефона */}
+      <a href={`tel:${phone}`}
+        className="absolute inset-0 flex items-center justify-center gap-2 bg-[#1e1e26] text-white text-sm font-bold tracking-widest">
+        <Phone className="w-4 h-4 text-[var(--amber)]" />
+        {phone}
+      </a>
+      {/* Верхний слой — синяя кнопка, уезжает вверх */}
+      <div className={`absolute inset-0 btn-primary flex items-center justify-center gap-2 transition-transform duration-500 ${revealed ? "-translate-y-full" : "translate-y-0"}`}>
+        <Phone className="w-4 h-4" />
+        Позвонить
+      </div>
+    </div>
+  );
+}
+
 interface Product {
   id: string; name: string; slug: string; price: number; comparePrice?: number;
   images: string[]; description?: string; shortDesc?: string; stock: number;
@@ -148,25 +167,20 @@ export default function ProductPage() {
             </div>
 
             {/* CTA */}
-            <div className="flex flex-col gap-3 mt-8">
-              {isContactCategory ? (
-                <>
-                  {product.contactPhone && (
-                    <a href={`tel:${product.contactPhone}`} className="btn-primary w-full justify-center">
-                      <Phone className="w-4 h-4" />
-                      Позвонить — {product.contactPhone}
-                    </a>
-                  )}
-                  {product.contactTelegram && (
-                    <a href={`https://t.me/${product.contactTelegram.replace("@", "")}`} target="_blank" rel="noopener noreferrer"
-                      className="btn-secondary w-full justify-center">
-                      <MessageCircle className="w-4 h-4" />
-                      Написать в Telegram
-                    </a>
-                  )}
-                </>
-              ) : null}
-            </div>
+            {isContactCategory && (
+              <div className="flex flex-col gap-3 mt-8">
+                {product.contactPhone && (
+                  <PhoneRevealButton phone={product.contactPhone} />
+                )}
+                {product.contactTelegram && (
+                  <a href={`https://t.me/${product.contactTelegram.replace("@", "")}`} target="_blank" rel="noopener noreferrer"
+                    className="btn-secondary w-full justify-center">
+                    <MessageCircle className="w-4 h-4" />
+                    Написать в Telegram
+                  </a>
+                )}
+              </div>
+            )}
 
             {product.description && (
               <div className="mt-8 pt-6 border-t border-[var(--border)]">

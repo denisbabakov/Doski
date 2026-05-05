@@ -2,9 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { Heart, ShoppingCart } from "lucide-react";
-import { useCart } from "@/store/cart";
-import { useState } from "react";
+import { ShoppingCart } from "lucide-react";
 
 interface ProductCardProps {
   id: string;
@@ -21,21 +19,11 @@ interface ProductCardProps {
 }
 
 export default function ProductCard({
-  id, slug, name, price, comparePrice, images, isNew, stock, isWb, wbArticle,
+  slug, name, price, comparePrice, images, isNew, stock, isWb, wbArticle,
 }: ProductCardProps) {
-  const addItem = useCart((s) => s.addItem);
-  const [added, setAdded] = useState(false);
-
   const discount = comparePrice
     ? Math.round(((comparePrice - price) / comparePrice) * 100)
     : 0;
-
-  const handleAdd = (e: React.MouseEvent) => {
-    e.preventDefault();
-    addItem({ id, name, price, image: images[0], slug });
-    setAdded(true);
-    setTimeout(() => setAdded(false), 1500);
-  };
 
   const handleWbClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -81,31 +69,12 @@ export default function ProductCard({
           )}
         </div>
 
-        {/* Wishlist (only for own products) */}
-        {!isWb && (
-          <button
-            onClick={(e) => { e.preventDefault(); }}
-            className="absolute top-3 right-3 w-8 h-8 bg-black/60 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity hover:bg-black"
-          >
-            <Heart className="w-3.5 h-3.5 text-[#888]" />
-          </button>
-        )}
-
-        {/* CTA button */}
-        {isWb ? (
+        {/* CTA button — только для WB товаров */}
+        {isWb && (
           <div className="absolute bottom-0 left-0 right-0 bg-[#cb11ab]/90 backdrop-blur-sm text-white text-xs font-semibold py-3 opacity-0 group-hover:opacity-100 transition-all flex items-center justify-center gap-2 tracking-wide uppercase">
             <ShoppingCart className="w-3.5 h-3.5" />
             Купить на WB
           </div>
-        ) : (
-          <button
-            onClick={handleAdd}
-            disabled={stock === 0}
-            className="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm text-white text-xs font-semibold py-3 opacity-0 group-hover:opacity-100 transition-all hover:bg-[var(--amber)] hover:text-black disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 tracking-wide uppercase"
-          >
-            <ShoppingCart className="w-3.5 h-3.5" />
-            {added ? "Добавлено" : "В корзину"}
-          </button>
         )}
       </div>
 
